@@ -97,6 +97,12 @@ class GestaoApp(ctk.CTk):
         self.text_descricao = ctk.CTkTextbox(campos_frame, width=300, height=100)
         self.text_descricao.pack(pady=(0, 10))
 
+        # Quantidade
+        ctk.CTkLabel(campos_frame, text="Quantidade de Alertas:").pack(anchor="w")
+        self.entry_quantidade = ctk.CTkEntry(campos_frame, width=300)
+        self.entry_quantidade.insert(0, "1")  # Valor padrão
+        self.entry_quantidade.pack(pady=(0, 10))
+
     def criar_botoes(self):
         frame_botoes = ctk.CTkFrame(self.painel_entrada, fg_color="transparent")
         frame_botoes.pack(fill="x", padx=20, pady=20)
@@ -146,15 +152,15 @@ class GestaoApp(ctk.CTk):
         # Criar tabela usando tksheet
         self.sheet = Sheet(self.frame_tabela,
                           headers=['ID', 'Colaborador', 'Data', 'Hora',
-                                 'Tipo', 'Motivo', 'Descrição'],
+                                 'Tipo', 'Motivo', 'Descrição', 'Quantidade'],
                           theme="light blue",
                           show_x_scrollbar=False,
                           height=400)
         self.sheet.pack(fill="both", expand=True)
         
-        # Configurar aparência da tabela
+        # Configurar colunas
         self.sheet.headers(['ID', 'Colaborador', 'Data', 'Hora',
-                          'Tipo', 'Motivo', 'Descrição'])
+                          'Tipo', 'Motivo', 'Descrição', 'Quantidade'])
         self.sheet.column_width(column=0, width=50)
         self.sheet.column_width(column=1, width=150)
         self.sheet.column_width(column=2, width=100)
@@ -162,6 +168,7 @@ class GestaoApp(ctk.CTk):
         self.sheet.column_width(column=4, width=120)
         self.sheet.column_width(column=5, width=150)
         self.sheet.column_width(column=6, width=200)
+        self.sheet.column_width(column=7, width=80)  # Coluna de quantidade
         
         # Habilitar seleção de linhas
         self.sheet.enable_bindings("single_select")
@@ -184,7 +191,8 @@ class GestaoApp(ctk.CTk):
                 registro[3],  # Hora
                 registro[4],  # Tipo
                 registro[5],  # Motivo
-                registro[6]   # Descrição
+                registro[6],  # Descrição
+                registro[7]   # Quantidade
             ])
         
         # Atualizar dados na tabela
@@ -202,8 +210,17 @@ class GestaoApp(ctk.CTk):
             tipo = self.combo_tipo.get()
             motivo = self.entry_motivo.get()
             descricao = self.text_descricao.get("1.0", "end-1c")
+            
+            # Obter quantidade (com validação)
+            try:
+                quantidade = int(self.entry_quantidade.get())
+                if quantidade < 1:
+                    raise ValueError("A quantidade deve ser maior que zero")
+            except ValueError as e:
+                self.mostrar_mensagem("Erro", "Quantidade inválida. Use apenas números maiores que zero.")
+                return
 
-            self.db.adicionar_gestao(colaborador, data, hora, tipo, motivo, descricao)
+            self.db.adicionar_gestao(colaborador, data, hora, tipo, motivo, descricao, quantidade)
             self.atualizar_tabela()
             self.limpar_campos()
             
@@ -217,6 +234,8 @@ class GestaoApp(ctk.CTk):
         self.entry_hora.delete(0, "end")
         self.entry_motivo.delete(0, "end")
         self.text_descricao.delete("1.0", "end")
+        self.entry_quantidade.delete(0, "end")
+        self.entry_quantidade.insert(0, "1")  # Resetar para valor padrão
         self.combo_tipo.set("Orientação Escrita")
 
     def mostrar_mensagem(self, titulo, mensagem):

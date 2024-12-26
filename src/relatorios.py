@@ -23,12 +23,13 @@ class GeradorRelatorios:
                 registro[4],  # Tipo
                 registro[5],  # Motivo
                 registro[6],  # Descrição
-                registro[7]   # Criado em
+                registro[7],  # Quantidade
+                registro[8]   # Criado em
             ])
             
         df = pd.DataFrame(dados_formatados, 
                          columns=['ID', 'Colaborador', 'Data', 'Hora',
-                                'Tipo', 'Motivo', 'Descrição', 'Criado em'])
+                                'Tipo', 'Motivo', 'Descrição', 'Quantidade', 'Criado em'])
         df.to_excel(caminho, index=False)
 
     def gerar_pdf(self, dados, caminho):
@@ -36,7 +37,7 @@ class GeradorRelatorios:
         elementos = []
 
         # Converter dados para formato adequado com data brasileira
-        dados_tabela = [['Colaborador', 'Data', 'Tipo', 'Motivo']]
+        dados_tabela = [['Colaborador', 'Data', 'Tipo', 'Motivo', 'Quantidade']]
         for registro in dados:
             data_banco = datetime.strptime(registro[2], "%Y-%m-%d")
             data_br = data_banco.strftime("%d/%m/%Y")
@@ -45,7 +46,8 @@ class GeradorRelatorios:
                 registro[1],  # Colaborador
                 data_br,      # Data (formato brasileiro)
                 registro[4],  # Tipo
-                registro[5]   # Motivo
+                registro[5],  # Motivo
+                str(registro[7])  # Quantidade
             ])
 
         # Criar tabela

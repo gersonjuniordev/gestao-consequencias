@@ -28,17 +28,18 @@ class GestaoDatabase:
             tipo_advertencia TEXT NOT NULL,
             motivo TEXT NOT NULL,
             descricao TEXT,
+            quantidade INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
         ''')
         self.conn.commit()
 
-    def adicionar_gestao(self, colaborador, data, hora, tipo_advertencia, motivo, descricao):
+    def adicionar_gestao(self, colaborador, data, hora, tipo_advertencia, motivo, descricao, quantidade):
         cursor = self.conn.cursor()
         cursor.execute('''
-        INSERT INTO gestoes (colaborador, data, hora, tipo_advertencia, motivo, descricao)
-        VALUES (?, ?, ?, ?, ?, ?)
-        ''', (colaborador, data, hora, tipo_advertencia, motivo, descricao))
+        INSERT INTO gestoes (colaborador, data, hora, tipo_advertencia, motivo, descricao, quantidade)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (colaborador, data, hora, tipo_advertencia, motivo, descricao, quantidade))
         self.conn.commit()
 
     def buscar_gestoes(self, filtros=None):
