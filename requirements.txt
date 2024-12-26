@@ -1,0 +1,8 @@
+customtkinter==5.2.1
+pandas==2.1.4
+openpyxl==3.1.2
+reportlab==4.0.9
+pillow==10.1.0
+tkcalendar==1.6.1
+tksheet==6.2.1
+pyinstaller==6.3.0

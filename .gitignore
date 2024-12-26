@@ -1,0 +1,77 @@
+# Arquivos e pastas específicos do projeto
+data/*.db
+installer/
+instalador_files/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos de ambiente virtual Python
+venv/
+env/
+.env/
+.venv/
+ENV/
+
+# Arquivos de build e distribuição
+build/
+dist/
+*.exe
+*.spec
+*.manifest
+*.msi
+*.dll
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+.vs/
+*.suo
+*.user
+
+# Logs e cache
+*.log
+logs/
+.cache/
+.pytest_cache/
+pip-log.txt
+
+# Arquivos de configuração local
+*.local
+*.local.*
+.env.local
+.env.*.local
+
+# Arquivos de compilação Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Arquivos compactados
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Arquivos específicos do PyInstaller
+*.manifest
+*.spec
+build/
+dist/
+
+# Arquivos específicos do Windows
+$RECYCLE.BIN/
+System Volume Information/ 
